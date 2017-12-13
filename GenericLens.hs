@@ -29,6 +29,11 @@ data Point3D
     , pz :: Int
     } deriving (Generic, Show, Eq)
 
+data Point
+  = Point2D_ Point2D
+  | Point3D_ Point3D
+  deriving (Generic, Show, Eq)
+
 scalePoint2D :: Int -> Point2D -> Point2D
 scalePoint2D c (Point2D x y) = Point2D (x * c) (y * c)
 
@@ -82,6 +87,8 @@ main = do
   putStrLn ""
   print $ (Point2D 1 2 ^? _Ctor @"Point2D") 
   print $ (Point2D 1 2 ^? _Ctor @"Point2D") == Just (1,2)
-  -- print $ (Point2D 1 2 ^? _Ctor @"Point3D") 
-  -- print $ (Point2D 1 2 ^? _Ctor @"Point3D") == Nothing 
+  print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point2D_" 
+  print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point2D_" == Just (Point2D 1 2)
+  print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point3D_" 
+  print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point3D_" == Nothing 
 
