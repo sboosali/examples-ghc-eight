@@ -3,9 +3,16 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies     #-}
-{-# LANGUAGE DuplicateRecordFields #-} 
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE ScopedTypeVariables #-} 
 
 {-| http://kcsongor.github.io/generic-lens/
+
+>>> :set -XDuplicateRecordFields
+>>> data Person = Person { name :: String, age :: Natural }
+>>> data Dog    = Dog    { name :: String, isPitbull :: Bool }
+>>> sameField @"name" (Person "Alex" 33) (Dog "Bruce" True)
+False 
 
 -}
 module GenericLens where
@@ -39,6 +46,29 @@ scalePoint2D c (Point2D x y) = Point2D (x * c) (y * c)
 
 pxM :: (MonadReader env m, HasField' "px" env String) => m String
 pxM = view (field @"px")
+
+sameX :: (Eq i, HasField' "px" a i, HasField' "px" b i) => a -> b -> Bool
+sameX a b = (a ^. field @"px") == (b ^. field @"px")
+
+-- -- the field type can be inferred from the field name
+-- sameField
+--   :: forall k a. forall s t. (HasField' k s a, HasField' k t a)
+--   => s -> t -> Bool
+-- sameField x y = (x ^. field @k) == (y ^. field @k)
+{- ERROR 
+
+GenericLens.hs:61:6: error:
+    * Overlapping instances for HasField k0 s s a0 a0
+      Matching givens (or their superclasses):
+        (HasField' k s a, HasField' k t a)
+          bound by the type signature for:
+                     sameField :: forall (k :: ghc-prim-0.5.1.1:GHC.Types.Symbol) a s t.
+                                  (HasField' k s a, HasField' k t a) =>
+                                  s -> t -> Bool
+
+-}
+
+--------------------------------------------------------------------------------
 
 {-
 
@@ -92,3 +122,6 @@ main = do
   print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point3D_" 
   print $ Point2D_ (Point2D 1 2) ^? _Ctor @"Point3D_" == Nothing 
 
+  putStrLn ""
+  -- print $ sameField @"px" (Point2D 1 2) (Point3D 1 2 3) 
+  print $ sameX (Point2D 1 2) (Point3D 1 2 3) 
