@@ -36,19 +36,23 @@ library
   -fwarn-missing-fields
   -Wnoncanonical-monad-instances 
 
- default-extensions: AutoDeriveTypeable DeriveDataTypeable DeriveGeneric
-                     DeriveFunctor DeriveFoldable DeriveTraversable
-                     LambdaCase EmptyCase TypeOperators PostfixOperators
-                     ViewPatterns BangPatterns KindSignatures
-                     NamedFieldPuns RecordWildCards TupleSections
-                     MultiWayIf DoAndIfThenElse EmptyDataDecls
-                     MultiParamTypeClasses FlexibleContexts FlexibleInstances
-                     TypeFamilies FunctionalDependencies
-                     ScopedTypeVariables StandaloneDeriving
+ default-extensions:
+   PackageImports 
+ 
+ -- default-extensions: AutoDeriveTypeable DeriveDataTypeable DeriveGeneric
+ --                     DeriveFunctor DeriveFoldable DeriveTraversable
+ --                     LambdaCase EmptyCase TypeOperators PostfixOperators
+ --                     ViewPatterns BangPatterns KindSignatures
+ --                     NamedFieldPuns RecordWildCards TupleSections
+ --                     MultiWayIf DoAndIfThenElse EmptyDataDecls
+ --                     MultiParamTypeClasses FlexibleContexts FlexibleInstances
+ --                     TypeFamilies FunctionalDependencies
+ --                     ScopedTypeVariables StandaloneDeriving
 
  exposed-modules:
                Validation
-               GenericLens
+               GenericLens     
+               TextZipper
 
  build-depends:
                base >=4.7 && <5
@@ -58,7 +62,8 @@ library
 
              , lens >=4.15
              , generic-lens
-             , mtl 
+             , mtl
+             , text-zipper
 
 
 executable example-validation 
@@ -71,18 +76,8 @@ executable example-validation
  ghc-options:
   -fno-warn-missing-signatures
 
- default-extensions: AutoDeriveTypeable DeriveDataTypeable DeriveGeneric
-                     DeriveFunctor DeriveFoldable DeriveTraversable
-                     LambdaCase EmptyCase TypeOperators PostfixOperators
-                     ViewPatterns BangPatterns KindSignatures
-                     NamedFieldPuns RecordWildCards TupleSections
-                     MultiWayIf DoAndIfThenElse EmptyDataDecls
-                     MultiParamTypeClasses FlexibleContexts FlexibleInstances
-                     TypeFamilies FunctionalDependencies
-                     ScopedTypeVariables StandaloneDeriving
-
  build-depends:
-               base >=4.7 && <5
+               base 
              , examples-ghc-eight
 
              , either
@@ -98,20 +93,31 @@ executable example-generic-lens
  ghc-options:
   -fno-warn-missing-signatures
 
- default-extensions: AutoDeriveTypeable DeriveDataTypeable DeriveGeneric
-                     DeriveFunctor DeriveFoldable DeriveTraversable
-                     LambdaCase EmptyCase TypeOperators PostfixOperators
-                     ViewPatterns BangPatterns KindSignatures
-                     NamedFieldPuns RecordWildCards TupleSections
-                     MultiWayIf DoAndIfThenElse EmptyDataDecls
-                     MultiParamTypeClasses FlexibleContexts FlexibleInstances
-                     TypeFamilies FunctionalDependencies
-                     ScopedTypeVariables StandaloneDeriving
-
  build-depends:
-               base >=4.7 && <5
+               base
              , examples-ghc-eight
 
              , generic-lens
              , lens
              , mtl
+
+
+executable example-text-zipper
+ hs-source-dirs:      .
+ main-is:             Main_TextZipper.hs
+ other-modules:
+               TextZipper  
+
+ default-language:    Haskell2010
+ ghc-options:
+  -fno-warn-missing-signatures
+ default-extensions:
+   PackageImports 
+
+ build-depends:
+               base 
+             , examples-ghc-eight
+
+             , text-zipper
+
+
