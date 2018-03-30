@@ -121,7 +121,7 @@ executable example-text-zipper
              , text-zipper
 
 
-executable example-chatbot
+executable example-haskeline
  hs-source-dirs: .
  main-is: Chatbot.hs
  ghc-options:
@@ -131,5 +131,6 @@ executable example-chatbot
    PackageImports 
  build-depends:
     base 
+  , containers
   , haskeline
 

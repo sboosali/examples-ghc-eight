@@ -103,4 +103,5 @@ main = runInputT defaultSettings (loop M.empty)
                                Say answer -> do
                                 outputStrLn (answer values)
                                 loop values
-                                
+
+
